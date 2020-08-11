@@ -7,10 +7,23 @@
 -->
 <PropertyList include="common-IAE.xml">
  <sim n="0">
-  <description>Northrop Grumman E-8R JSTARS (IAE V2527-A5)</description>
+  <description>Northrop Grumman E-8R Joint STARS (IAE V2527-A5)</description>
+  <long-description>
+   The Northrop Grumman E-8R Joint Surveillance Target Attack Radar System (Joint STARS) is a United States Air Force airborne ground surveillance, battle management and command and control aircraft. It tracks ground vehicles and some aircraft, collects imagery, and relays tactical pictures to ground and air theater commanders. The aircraft is operated by both active duty Air Force and Air National Guard units.
+  </long-description>
 	<startup>
-		<splash-texture>Aircraft/KC-137R/Splash/splashJS.png</splash-texture>
+		<splash-texture>Aircraft/KC-137R/Splash/Old/splashJS.png</splash-texture>
 	</startup>
+	
+	<variant-of>KC-137R</variant-of>
+	<minimum-fg-version>2018.3</minimum-fg-version>
+	<previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splash/JS.png</path>
+            </preview>
+    </previews>
 
   <model n="0">
    	 <path>Aircraft/KC-137R/Models/E-8R.xml</path>
@@ -126,6 +139,13 @@
 						</script>
 					</binding>
 				</item>
+				<item>
+		          <label>Radar Cutoff</label>
+		          <binding>
+		            <command>dialog-show</command>
+		            <dialog-name>cutoff</dialog-name>
+		          </binding>
+		      </item>
 			</menu>
 		</default>
 	</menubar>
@@ -261,9 +281,9 @@ no. D6-3071-00
 			<from-model type="bool">true</from-model>
 			<from-model-idx type="int">0</from-model-idx>
 			<!-- x/y/z == right/up/back -->
-			<x-offset-m archive="y"> 0.63</x-offset-m>
-			<y-offset-m archive="y">1.26</y-offset-m>
-			<z-offset-m archive="y">-10.57</z-offset-m>
+			<x-offset-m archive="y"> 0.61</x-offset-m>
+			<y-offset-m archive="y">1.28</y-offset-m>
+			<z-offset-m archive="y">-10.55</z-offset-m>
 			<pitch-offset-deg type="double">-9.0</pitch-offset-deg>
 			<default-pitch-deg type="double">-9.0</default-pitch-deg>
 			<from-model-idx type="int">0</from-model-idx>
@@ -317,7 +337,20 @@ no. D6-3071-00
 		<input type="string"/>
 		<serviceable type="bool">1</serviceable>
 	</cdu>
+  <mptcas>
+    <display-factor-awacs type="double">1</display-factor-awacs>
+    <display-factor type="double">1</display-factor>
+  </mptcas>
+  <!--transponder>
+		<id-code type="int">5600</id-code>
+  </transponder-->
  </instrumentation>
+
+ 	<awacs>
+		<from type="string">blufor</from>
+		<to type="string">opfor</to>
+		<a type="string">Enter callsigns and click Cutoff</a>
+	</awacs>
  
   <b707>
 		<manual>
@@ -331,12 +364,18 @@ no. D6-3071-00
 			<subtitle3 type="string">MODEL E-8R</subtitle3>
 			<text3 type="string">FOR FLIGHTGEAR SIMULATION ONLY</text3>
 			<subtitle4 type="string"></subtitle4>
-			<text4 type="string">J Maverick 16, Octal450 Hanger</text4>
+			<text4 type="string">J Maverick 16, Octal450 Hangar</text4>
 			<content include="Models/Cockpit/Manual/manual-JSTARS.xml"/>
 		</manual>
   </b707>
 
 	<nasal>
+		<vector>
+            <file>Aircraft/KC-137R/Nasal/vector.nas</file>
+		</vector>
+		<rcs>
+            <file>Aircraft/KC-137R/Nasal/rcs.nas</file>
+		</rcs>
 		<b707>
 			<file>Aircraft/KC-137R/Nasal/shake.nas</file>
 			<file>Aircraft/KC-137R/Nasal/autostart.nas</file>
@@ -399,12 +438,12 @@ no. D6-3071-00
 		<rwr>
 			<file>Aircraft/KC-137R/Models/Cockpit/Instruments/rwr/rwr.nas</file>
 		</rwr>
-		<radardist>
+		<!--<radardist>
 			<file>Aircraft/KC-137R/Nasal/radardist.nas</file>
-		</radardist>
-		<radar-logic>
+		</radardist>-->
+		<!--<radar-logic>
 			<file>Aircraft/KC-137R/Models/Cockpit/Instruments/rwr/radar-logic.nas</file>
-		</radar-logic>
+		</radar-logic>-->
 		<fbw>
 			<file>Aircraft/KC-137R/Nasal/it-fbw.nas</file>
 		</fbw>

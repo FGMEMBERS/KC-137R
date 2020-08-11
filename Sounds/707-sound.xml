@@ -492,6 +492,7 @@
 				</and>
       </condition>
 		<volume>
+			<property>sim/current-view/internal</property>
 			<factor>1</factor>
 		</volume>
 	</testwarning>
@@ -516,6 +517,7 @@
 				</and>
       </condition>
 		<volume>
+			<property>sim/current-view/internal</property>
 			<factor>1</factor>
 		</volume>
 	</firewarning>
@@ -535,6 +537,7 @@
 		</and>
       </condition>
 		<volume>
+			<property>sim/current-view/internal</property>
 			<factor>1</factor>
 		</volume>
 	</icewarning>
@@ -630,28 +633,59 @@
 	</call>
 
     <rain>
-      <name>rain</name>
-      <mode>looped</mode>
-      <path>Aircraft/KC-137R/Sounds/rain.wav</path>
-      <condition>
-        <greater-than>
-          <property>/environment/metar/rain-norm</property>
-          <value>0.2</value>
-        </greater-than>
-      </condition>
-      <volume>
-        <property>/environment/metar/rain-norm</property>
-        <factor>1.00</factor>
-        <offset>0.00</offset>
-        <min>0.6</min>
-        <max>1.2</max>
-      </volume>
-      <pitch>
-        <property>/velocities/airspeed-kt</property>
-        <factor>0.001</factor>
-        <offset>1.0</offset>
-      </pitch>
-    </rain>
+			<name>RainOutside</name>
+			<mode>looped</mode>
+			<path>Aircraft/KC-137R/Sounds/rain.wav</path>
+			<condition>
+				<not>
+					<property>sim/current-view/internal</property>
+				</not>
+				<greater-than>
+					<property>/environment/rain-norm</property>
+					<value>0</value>
+				</greater-than>
+			</condition>
+			<volume>
+				<property>/environment/rain-norm</property>
+				<factor>0.41</factor>
+			</volume>
+		</rain>
+
+		<rain>
+			<name>RainInside</name>
+			<mode>looped</mode>
+			<path>Aircraft/KC-137R/Sounds/rain.wav</path>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<greater-than>
+					<property>/environment/rain-norm</property>
+					<value>0</value>
+				</greater-than>
+			</condition>
+			<volume>
+				<property>/environment/rain-norm</property>
+				<factor>0.1</factor>
+			</volume>
+		</rain>
+
+    <rain-windshield>
+			<name>RainWindshieldInside</name>
+			<mode>looped</mode>
+			<path>Aircraft/KC-137R/Sounds/rain-windshield.wav</path>
+			<condition>
+				<property>sim/current-view/internal</property>
+				<greater-than>
+					<property>/environment/rain-norm</property>
+					<value>0</value>
+				</greater-than>
+			</condition>
+			<volume>
+				<property>velocities/airspeed-kt</property>
+				<factor>0.008</factor>
+				<min>0.04</min>
+				<max>0.45</max>
+			</volume>
+		</rain-windshield>
 
 	<pneumatic>
 		<name>pneumatic break close</name>
@@ -817,7 +851,7 @@
     <property>/instrumentation/generic/click</property>
    </condition>
    <volume>
-    <max>0.2</max>
+    <max>0.45</max>
    </volume>
   </click>
 
@@ -830,7 +864,7 @@
     </not>
    </condition>
    <volume>
-    <max>0.2</max>
+    <max>0.45</max>
    </volume>
   </click>
   
@@ -894,7 +928,7 @@
       <property>/sim/sound/switch3</property>
     </condition>
     <volume>
-      <offset> 0.5 </offset>
+      <offset> 0.75 </offset>
     </volume>
   </switch>
 
@@ -908,7 +942,7 @@
       </not>
     </condition>
     <volume>
-      <offset> 0.5 </offset>
+      <offset> 0.75 </offset>
     </volume>
   </switch>
 
@@ -951,12 +985,12 @@
       <volume>
       	<and>
       		<property>sim/current-view/internal</property>
-        	<property>/environment/metar/rain-norm</property>
+        	<property>/environment/rain-norm</property>
         </and>
         <factor>1.00</factor>
         <offset>0.00</offset>
-        <min>0.3</min>
-        <max>0.8</max>
+        <min>0.2</min>
+        <max>0.7</max>
       </volume>
       <pitch>
         <property>/velocities/airspeed-kt</property>
@@ -978,12 +1012,12 @@
       <volume>
       	<and>
       		<property>sim/current-view/internal</property>
-        	<property>/environment/metar/rain-norm</property>	
+        	<property>/environment/rain-norm</property>	
         </and>
         <factor>1.00</factor>
         <offset>0.00</offset>
-        <min>0.3</min>
-        <max>0.8</max>
+        <min>0.2</min>
+        <max>0.7</max>
       </volume>
       <pitch>
         <property>/velocities/airspeed-kt</property>
@@ -1309,7 +1343,7 @@
             <property>systems/electrical/outputs/efis</property>
             <volume>
             	<property>/sim/current-view/internal</property>
-                <factor>0.069</factor>
+                <factor>0.073</factor>
             </volume>
         </avionics>
 
@@ -1397,6 +1431,29 @@
                 <value>1.4</value>
             </volume>
         </refuel>
+
+        <ambience>
+			<name>AmbienceOutside</name>
+			<mode>looped</mode>
+			<path>Aircraft/KC-137R/Sounds/ambience_outside.wav</path>
+			<condition>
+				<not>
+					<property>sim/current-view/internal</property>
+				</not>
+				<property>gear/gear[0]/wow</property>
+				<property>gear/gear[1]/wow</property>
+				<property>gear/gear[2]/wow</property>
+				<not>
+					<property>/engines/engine[0]/running</property>
+					<property>/engines/engine[1]/running</property>
+					<property>/engines/engine[2]/running</property>
+					<property>/engines/engine[3]/running</property>
+				</not>
+			</condition>
+			<volume>
+				<factor>0.267</factor>
+			</volume>
+		</ambience>
 </fx>
 
 </PropertyList>

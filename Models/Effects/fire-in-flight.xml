@@ -37,8 +37,8 @@
     </shooter>
     <counter>
       <particles-per-sec>
-        <value>50</value>
-        <spread>0.2</spread>
+        <value>60</value>
+        <spread>0.5</spread>
       </particles-per-sec>
     </counter>
 		<particle>
@@ -47,10 +47,10 @@
 					<red><value>0.6</value></red>
 					<green><value>0.6</value></green>
 					<blue><value>0.6</value></blue>
-					<alpha><value>1</value></alpha>
+					<alpha><value>0.8</value></alpha>
 				</color>
 				<size>
-					<value>0.08</value>
+					<value>0.8</value>
 				</size>
 			</start>
 			<end>
@@ -58,14 +58,14 @@
 					<red><value>0</value></red>
 					<green><value>0</value></green>
 					<blue><value>0</value></blue>
-					<alpha><value>0.6</value></alpha>
+					<alpha><value>0.4</value></alpha>
 				</color>
 				<size>
-					<value>5.0</value>
+					<value>2.0</value>
 				</size>
 			</end>
 			<life-sec>
-				<value>0.4</value>
+				<value>0.2</value>
 			</life-sec>
 			<mass-kg>0.09</mass-kg>
 			<radius-m>0.3</radius-m>

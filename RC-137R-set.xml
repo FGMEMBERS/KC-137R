@@ -7,10 +7,23 @@
 -->
 <PropertyList include="common.xml">
  <sim n="0">
-  <description>Boeing RC-137R (CFM56-7B26)</description>
+  <description>Boeing RC-137R Rivet Joint (CFM56-7B26)</description>
+  	<long-description>
+   	The Boeing RC-137R Rivet Joint is an airborne SIGINT/reconnaissance aircraft built by Boeing and modified by a number of companies, including General Dynamics, Lockheed and L-3 Communications. It is used by the United States Air Force to support theater and national level intelligence consumers with near real-time on-scene collection, analysis and dissemination capabilities thanks to its sensor suite which allows to detect, identify and geolocate signals throughout the electromagnetic spectrum, forwarding gathered information in a variety of formats to a wide range of consumers via Rivet Joint's extensive communications suite. Based on the C-135 Stratolifter airframe, various types of RC-137s have been in service since 1961. Many variants have been modified numerous times, resulting in a large variety of designations, configurations, and program names.
+  	</long-description>
 	<startup>
 		<splash-texture>Aircraft/KC-137R/splashTT.png</splash-texture>
 	</startup>
+	
+	<variant-of>KC-137R</variant-of>
+	<minimum-fg-version>2018.3</minimum-fg-version>
+	<previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splash/RC.png</path>
+            </preview>
+    </previews>
 
   <model n="0">
    	 <path>Aircraft/KC-137R/Models/RC-137R.xml</path>
@@ -126,6 +139,13 @@
 						</script>
 					</binding>
 				</item>
+				<item>
+		          <label>Radar Cutoff</label>
+		          <binding>
+		            <command>dialog-show</command>
+		            <dialog-name>cutoff</dialog-name>
+		          </binding>
+		      </item>
 			</menu>
 		</default>
 	</menubar>
@@ -245,9 +265,9 @@ no. D6-3071-00
 			<from-model type="bool">true</from-model>
 			<from-model-idx type="int">0</from-model-idx>
 			<!-- x/y/z == right/up/back -->
-			<x-offset-m archive="y"> 0.63</x-offset-m>
-			<y-offset-m archive="y">1.26</y-offset-m>
-			<z-offset-m archive="y">-10.57</z-offset-m>
+			<x-offset-m archive="y"> 0.61</x-offset-m>
+			<y-offset-m archive="y">1.28</y-offset-m>
+			<z-offset-m archive="y">-10.55</z-offset-m>
 			<pitch-offset-deg type="double">-9.0</pitch-offset-deg>
 			<default-pitch-deg type="double">-9.0</default-pitch-deg>
 			<from-model-idx type="int">0</from-model-idx>
@@ -301,7 +321,20 @@ no. D6-3071-00
 		<input type="string"/>
 		<serviceable type="bool">1</serviceable>
 	</cdu>
+	<mptcas>
+    <display-factor-awacs type="double">1</display-factor-awacs>
+    <display-factor type="double">1</display-factor>
+  </mptcas>
+  <!--transponder>
+		<id-code type="int">4400</id-code>
+  </transponder-->
  </instrumentation>
+
+ 	<awacs>
+		<from type="string">blufor</from>
+		<to type="string">opfor</to>
+		<a type="string">Enter callsigns and click Cutoff</a>
+	</awacs>
  
   <b707>
 		<manual>
@@ -321,6 +354,12 @@ no. D6-3071-00
   </b707>
 
 	<nasal>
+		<vector>
+            <file>Aircraft/KC-137R/Nasal/vector.nas</file>
+		</vector>
+		<rcs>
+            <file>Aircraft/KC-137R/Nasal/rcs.nas</file>
+		</rcs>
 		<b707>
 			<file>Aircraft/KC-137R/Nasal/shake.nas</file>
 			<file>Aircraft/KC-137R/Nasal/autostart.nas</file>

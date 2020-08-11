@@ -8,13 +8,24 @@
 <PropertyList include="Aircraft/Generic/Human/Include/walker-include.xml">
  <sim n="0">
   <description>Boeing KC-137R</description>
-  <author>J Maverick 16, Joshua Davidson (Octal450), Martien Van Der Plas and others. Based on the Lake of Constance Hangar version [Original from Innis Cunningham]</author>
-  <status>Beta</status>
+  <author>J Maverick 16, Joshua Davidson, Martien Van Der P., Nikolai V. Chr., FL2070, MD-GRK and others. Based on Lake of Constance Hangar 707 [Original from Innis Cunningham]</author>
+  <status>Early Production</status>
   <aero>KC-137R</aero>
   <flight-model>jsb</flight-model>
   <virtual-cockpit archive="y">true</virtual-cockpit>
   <allow-toggle-cockpit archive="y">true</allow-toggle-cockpit>
-  <minimum-fg-version>2018.1</minimum-fg-version>
+  <minimum-fg-version>2018.2</minimum-fg-version>
+  <aircraft-data>
+        <path>/instrumentation/operating-time/total</path>
+        <path>/instrumentation/transponder/inputs/digit[0]</path>
+        <path>/instrumentation/transponder/inputs/digit[1]</path>
+        <path>/instrumentation/transponder/inputs/digit[2]</path>
+        <path>/instrumentation/transponder/inputs/digit[3]</path>
+        <path>/instrumentation/tacan/frequencies/selected-channel[1]</path>
+        <path>/instrumentation/tacan/frequencies/selected-channel[2]</path>
+        <path>/instrumentation/tacan/frequencies/selected-channel[3]</path>
+        <path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
+  </aircraft-data>
   <rating>
       <FDM type="int">4</FDM>
       <systems type="int">5</systems>
@@ -31,9 +42,8 @@
 		<autopilot n="0">
 			<path>Aircraft/KC-137R/Systems/it-autoflight.xml</path>
 		</autopilot>
-		<!-- Uses a custom EPR based autothrottle -->
 		<autopilot n="1">
-			<path>Aircraft/KC-137R/Systems/custom-autothrust.xml</path>
+			<path>Aircraft/KC-137R/Systems/it-autothrust.xml</path>
 		</autopilot>
 		<autopilot n="2">
 			<path>Aircraft/KC-137R/Systems/engine-timing.xml</path>
@@ -67,6 +77,15 @@
       <x-m type="float">-15.68</x-m>
       <class type="string">3</class>
 	</ramp>
+	<!--icing>
+	  <iceable>
+	  	<name>Windshield</name>
+	  	<ice-inches>0.0</ice-inches>
+	  	<salvage-control>/controls/deice/windowprobeheat</salvage-control>
+	  	<sensitivity type="double">0.5</sensitivity>
+	  	<output-property>/environment/aircraft-effects/frost-inch</output-property>
+	  </iceable>
+	</icing-->
   </model>
   
 	<airport>
@@ -226,6 +245,7 @@
 		<int n="13" alias="/instrumentation/mptcas/on"/>  										<!-- show AWACS radar turning -->
 		<int n="14" alias="/b707/external-power-connected"/>									<!-- External Power-VW Kombi -->
 		<int n="15" type="int">0</int> <!-- jettison fuel 1 = left, 2 = right, 3 = both -->
+		<int n="17" type="int">0</int> <!-- fire 1 = eng 1, 2 = eng 2, 3 = both -->
 		<int n="19" alias="/b707/crashed"/>
 		<float n="0" alias="/systems/electrical/outputs/cabin-dim"/> 							<!-- cabin light dimmer -->
 		<float n="1" alias="/gear/gear[0]/compression-norm"/> 	
@@ -250,6 +270,8 @@
  
   <flight-recorder include="Systems/flightrecorder.xml"/>
 
+  <gui n="0" include="gui/it-gui.xml"/>
+
   <flaps>
     <setting>0.0</setting>
     <setting>0.2</setting>	<!-- 20% takeoff-->
@@ -261,18 +283,6 @@
   <engine-type>
 	<IAE type="bool">false</IAE>
   </engine-type>
-  
-	<aircraft-data>
-		<path>/instrumentation/operating-time/total</path>
-		<path>/instrumentation/transponder/inputs/digit[0]</path>
-        <path>/instrumentation/transponder/inputs/digit[1]</path>
-        <path>/instrumentation/transponder/inputs/digit[2]</path>
-        <path>/instrumentation/transponder/inputs/digit[3]</path>
-        <path>/instrumentation/tacan/frequencies/selected-channel[1]</path>
-        <path>/instrumentation/tacan/frequencies/selected-channel[2]</path>
-        <path>/instrumentation/tacan/frequencies/selected-channel[3]</path>
-        <path>/instrumentation/tacan/frequencies/selected-channel[4]</path>
-	</aircraft-data>
 	
 	<yokes-visible type="bool">1</yokes-visible>
  </sim>
@@ -290,8 +300,7 @@
 	<it-autoflight>
 		<config>
 			<cmd>
-				<hdg>1.6</hdg>
-				<vorloc>2.4</vorloc>
+				<roll>1.6</roll>
 				<alt-gain>-5</alt-gain>
 			</cmd>
 			<autoland> 
@@ -300,12 +309,16 @@
 			</autoland>
 			<rollout>
 				<roll-kp>-0.1</roll-kp>
-				<pitch-defl>0.15</pitch-defl>
+				<pitch-nose>0.1</pitch-nose>
+				<pitch-rate>-1.5</pitch-rate>
 				<yaw-kp>-0.02</yaw-kp>
 			</rollout>
 		</config>
 		<settings>
 			<auto-bank-max-deg>30</auto-bank-max-deg> <!-- Maximum Auto Bank Limit -->
+			<autothrottle-max>0.95</autothrottle-max> <!-- Thrust Max Limit Normalized -->
+			<autothrottle-min>0.02</autothrottle-min> <!-- Thrust Low Limit Normalized -->
+			<custom-fma>0</custom-fma> <!-- Call functions when modes change for a custom FMA to be implemented --> 
 			<disable-final>1</disable-final> <!-- Disable the Final Controllers, for custom FCS integration -->
 			<land-enable>1</land-enable> <!-- Enable/Disable Autoland -->
 			<land-flap>0.6</land-flap> <!-- Minimum Flap used for Landing -->
@@ -730,13 +743,15 @@
 				<col n="2">ALTITUDE</col>
 				<col n="3">HDG / DIR</col>
 				<col n="4">TAS</col>
-				<col n="5">AIRCRAFT</col>
+				<col n="5">TYPE</col>
 			</row>
 		  </table>
 		</mptcas>
 
 		<transponder>
-		  <inputs><knob-mode type="int">0</knob-mode></inputs>
+			<inputs>
+				<knob-mode type="int">0</knob-mode>
+			</inputs>
 		</transponder>
 
 		<rmi-needle n="0">

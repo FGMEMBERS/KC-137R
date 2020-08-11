@@ -7,10 +7,23 @@
 -->
 <PropertyList include="common-IAE.xml">
  <sim n="0">
-  <description>Boeing EC-137R (IAE V2527-A5)</description>
+  <description>Boeing EC-137R Sentry (IAE V2527-A5)</description>
+  	<long-description>
+   	The Boeing EC-137R Sentry, commonly known as AWACS, is an American airborne early warning and control (AEW and C) aircraft developed by Boeing. Derived from the Boeing 707, it provides all-weather surveillance, command, control, and communications, and is mainly used by the United States Air Force and NATO. The EC-137R is distinguished by the distinctive rotating radar dome (ROTODOME) above the fuselage.
+  	</long-description>
 	<startup>
-		<splash-texture>Aircraft/KC-137R/Splash/splashEC.png</splash-texture>
+		<splash-texture>Aircraft/KC-137R/Splash/Old/splashEC.png</splash-texture>
 	</startup>
+	
+	<variant-of>KC-137R</variant-of>
+	<minimum-fg-version>2018.3</minimum-fg-version>
+	<previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splash/EC.png</path>
+            </preview>
+    </previews>
 
   <model n="0">
    	 <path>Aircraft/KC-137R/Models/EC-137R.xml</path>
@@ -126,6 +139,13 @@
 						</script>
 					</binding>
 				</item>
+				<item>
+		          <label>AWACS Cutoff</label>
+		          <binding>
+		            <command>dialog-show</command>
+		            <dialog-name>cutoff</dialog-name>
+		          </binding>
+		      </item>
 			</menu>
 		</default>
 	</menubar>
@@ -237,7 +257,7 @@ no. D6-3071-00
 		</text>
 	</help>
   <view n="105">
-    <name>Awacs Officer</name>
+    <name>AWACS Officer</name>
     <enabled type="bool">true</enabled>
     <type>lookfrom</type>
     <internal type="bool">true</internal>
@@ -245,9 +265,9 @@ no. D6-3071-00
 			<from-model type="bool">true</from-model>
 			<from-model-idx type="int">0</from-model-idx>
 			<!-- x/y/z == right/up/back -->
-			<x-offset-m archive="y"> 0.63</x-offset-m>
-			<y-offset-m archive="y">1.26</y-offset-m>
-			<z-offset-m archive="y">-10.57</z-offset-m>
+			<x-offset-m archive="y"> 0.61</x-offset-m>
+			<y-offset-m archive="y">1.28</y-offset-m>
+			<z-offset-m archive="y">-10.55</z-offset-m>
 			<pitch-offset-deg type="double">-9.0</pitch-offset-deg>
 			<default-pitch-deg type="double">-9.0</default-pitch-deg>
 			<from-model-idx type="int">0</from-model-idx>
@@ -301,7 +321,20 @@ no. D6-3071-00
 		<input type="string"/>
 		<serviceable type="bool">1</serviceable>
 	</cdu>
+	<mptcas>
+		<display-factor-awacs type="double">1</display-factor-awacs>
+		<display-factor type="double">1</display-factor>
+	</mptcas>
+	<!--transponder>
+		<id-code type="int">6100</id-code>
+   </transponder-->
  </instrumentation>
+ 
+	<awacs>
+		<from type="string">blufor</from>
+		<to type="string">opfor</to>
+		<a type="string">Enter callsigns and click Cutoff</a>
+	</awacs>
  
   <b707>
 		<manual>
@@ -321,6 +354,12 @@ no. D6-3071-00
   </b707>
 
 	<nasal>
+		<vector>
+            <file>Aircraft/KC-137R/Nasal/vector.nas</file>
+		</vector>
+		<rcs>
+            <file>Aircraft/KC-137R/Nasal/rcs.nas</file>
+		</rcs>
 		<b707>
 			<file>Aircraft/KC-137R/Nasal/shake.nas</file>
 			<file>Aircraft/KC-137R/Nasal/autostart.nas</file>
@@ -383,12 +422,12 @@ no. D6-3071-00
 		<rwr>
 			<file>Aircraft/KC-137R/Models/Cockpit/Instruments/rwr/rwr.nas</file>
 		</rwr>
-		<radardist>
+		<!--<radardist>
 			<file>Aircraft/KC-137R/Nasal/radardist.nas</file>
-		</radardist>
-		<radar-logic>
+		</radardist>-->
+		<!--<radar-logic>
 			<file>Aircraft/KC-137R/Models/Cockpit/Instruments/rwr/radar-logic.nas</file>
-		</radar-logic>
+		</radar-logic>-->
 		<fbw>
 			<file>Aircraft/KC-137R/Nasal/it-fbw.nas</file>
 		</fbw>

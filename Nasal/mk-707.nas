@@ -1037,7 +1037,7 @@ var calc_pressurization	= func{
 		interpolate("/b707/pressurization/cabin-altitude", alt, t);
 		interpolate("/b707/pressurization/climb-rate", vs, t);
 		var ra = getprop("position/altitude-agl-ft") or 0;
-		if(ra > 2000) screen.log.write(sprintf("ATTENTION! No pressurization!"), 1.0, 0.0, 0.0);
+		#if(ra > 2000) screen.log.write(sprintf("ATTENTION! No pressurization!"), 1.0, 0.0, 0.0);
 	}
 	
 	# cabin differential pressure
@@ -1048,7 +1048,7 @@ var calc_pressurization	= func{
 	interpolate("/b707/pressurization/cabin-differential-pressure", psi, t);
 	
 	if(calt > 8000){
-		 screen.log.write(sprintf("ATTENTION! Increase cabin pressure expressly!"), 1.0, 0.0, 0.0);
+		 screen.log.write(sprintf(" "), 1.0, 0.0, 0.0);
 	}else{
 		if(svp) setprop("/b707/pressurization/alt-cutout-horn", 0); # reset if it was pushed during depressurization
 	}
@@ -1303,6 +1303,22 @@ var toggleProbeRight = func(){
 			interpolate("/b707/refuelling/probe-right-lever", 0, 1);
 		}
 }
+var masterLoop = func {
+	if (getprop("payload/armament/msg")) {
+		call(func{multiplayer.dialog.del();},nil,var err= []);
+		if (!getprop("fdm/jsbsim/gear/unit[0]/WOW")) {
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "WeightAndFuel"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "system-failures"}))},nil,var err2 = []);
+			call(func{fgcommand('dialog-close', props.Node.new({"dialog-name": "instrument-failures"}))},nil,var err2 = []);
+		}  
+		setprop("sim/freeze/fuel",0);
+		setprop("/sim/speed-up", 1);
+		setprop("/gui/map/draw-traffic", 0);
+		setprop("/sim/gui/dialogs/map-canvas/draw-TFC", 0);
+	}
+    settimer(masterLoop,0.5);
+}
+masterLoop();
 var toggleRefuelling = func{
   var somethingOut = 0;
   var lD = getprop("/b707/refuelling/probe-left") or 0;

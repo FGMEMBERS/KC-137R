@@ -7,10 +7,22 @@
 -->
 <PropertyList include="common.xml">
  <sim n="0">
-  <description>Boeing KC-137R (CFM56-7B26)</description>
+  <description>Boeing KC-137R Stratotanker (CFM56-7B26)</description>
+  	<long-description>
+   	The Boeing KC-137R Stratotanker is a military aerial refueling aircraft. The KC-137 was the US Air Force's first jet-powered refueling tanker and replaced the KC-97 Stratofreighter. The KC-137 was initially tasked with refueling strategic bombers, but was used extensively in the Vietnam War and later conflicts such as Operation Desert Storm to extend the range and endurance of US tactical fighters and bombers.
+  	</long-description>
 	<startup>
-		<splash-texture>Aircraft/KC-137R/Splash/splashKC.png</splash-texture>
+		<splash-texture>Aircraft/KC-137R/Splash/Old/splashKC.png</splash-texture>
 	</startup>
+	
+	<minimum-fg-version>2018.3</minimum-fg-version>
+	<previews>
+            <preview>
+                <type>exterior</type>
+                <splash type="bool">true</splash>
+                <path>Splash/KC.png</path>
+            </preview>
+    </previews>
 
   <model n="0">
    	 <path>Aircraft/KC-137R/Models/KC-137R.xml</path>
@@ -319,6 +331,13 @@ no. D6-3071-00
 		<input type="string"/>
 		<serviceable type="bool">1</serviceable>
 	</cdu>
+	<mptcas>
+    <display-factor-awacs type="double">1</display-factor-awacs>
+    <display-factor type="double">1</display-factor>
+  </mptcas>
+  <!--transponder>
+		<id-code type="int">2300</id-code>
+  </transponder-->
  </instrumentation>
  
   <b707>
@@ -333,12 +352,18 @@ no. D6-3071-00
 			<subtitle3 type="string">MODEL KC-137R/KC-137R-RT</subtitle3>
 			<text3 type="string">FOR FLIGHTGEAR SIMULATION ONLY</text3>
 			<subtitle4 type="string"></subtitle4>
-			<text4 type="string">J Maverick 16, Octal450 Hanger</text4>
+			<text4 type="string">J Maverick 16, Octal450 Hangar</text4>
 			<content include="Models/Cockpit/Manual/manual.xml"/>
 		</manual>
   </b707>		
 	
 	<nasal>
+		<vector>
+            <file>Aircraft/KC-137R/Nasal/vector.nas</file>
+		</vector>
+		<rcs>
+            <file>Aircraft/KC-137R/Nasal/rcs.nas</file>
+		</rcs>
 		<b707>
 			<file>Aircraft/KC-137R/Nasal/shake.nas</file>
 			<file>Aircraft/KC-137R/Nasal/autostart.nas</file>
